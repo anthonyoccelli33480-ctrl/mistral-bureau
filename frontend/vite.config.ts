@@ -1,7 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig({
+// base is "/mistral-bureau/" for production builds (GitHub Pages project site)
+// and "/" in dev so the local proxy keeps working.
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/mistral-bureau/" : "/",
   plugins: [react()],
   server: {
     host: "127.0.0.1",
@@ -9,4 +12,4 @@ export default defineConfig({
     strictPort: false,
     proxy: { "/api": "http://127.0.0.1:8789" },
   },
-});
+}));
