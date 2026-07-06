@@ -6,7 +6,7 @@
   <text x="784" y="45" fill="#ff7000" font-family="monospace" font-size="13" text-anchor="middle">mistral-large</text>
   <text x="32" y="88" fill="#8a8aa8" font-family="monospace" font-size="11">INPUT · offre d'emploi</text>
   <rect x="32" y="98" width="836" height="56" rx="10" fill="#1c1c28" stroke="#2e2e40"/>
-  <text x="48" y="128" fill="#ececf4" font-family="monospace" font-size="12">Alternance Dev IA · React · Python · Bordeaux…</text>
+  <text x="48" y="128" fill="#ececf4" font-family="monospace" font-size="12">Senior Backend Engineer · Python · FastAPI · Paris…</text>
   <text x="450" y="188" fill="#ff7000" font-family="system-ui" font-size="28" text-anchor="middle">🇫🇷</text>
   <text x="32" y="218" fill="#8a8aa8" font-family="monospace" font-size="11">OUTPUT · JSON</text>
   <rect x="32" y="228" width="836" height="150" rx="10" fill="#0c0c10" stroke="#ff700055"/>

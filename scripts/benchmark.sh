@@ -2,7 +2,7 @@
 # Benchmark Bureau JD (3 runs, rate-gate Large 30s)
 set -euo pipefail
 API="http://127.0.0.1:8789/api/run"
-INPUT='Alternance développeur IA full-stack React Python Bordeaux 2026'
+INPUT='Senior Backend Engineer Python FastAPI PostgreSQL Paris remote'
 N=3
 TMP=$(mktemp)
 for i in $(seq 1 $N); do
