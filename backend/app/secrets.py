@@ -23,14 +23,16 @@ def _parse_env(text: str) -> dict[str, str]:
 
 def _render_env(data: dict[str, str]) -> str:
     lines = [
-        "# Devstral Lab — secrets locaux (NE PAS committer)",
+        "# Mistral Bureau — secrets locaux (NE PAS committer)",
         "",
     ]
     order = [
         "MISTRAL_API_KEY",
+        "MINISTRAL_RATE_INTERVAL_SEC",
+        "MISTRAL_LARGE_RATE_INTERVAL_SEC",
         "DEVSTRAL_RATE_INTERVAL_SEC",
-        "CODESTRAL_RATE_INTERVAL_SEC",
-        "LAB_PORT",
+        "PIXTRAL_RATE_INTERVAL_SEC",
+        "BUREAU_PORT",
     ]
     seen: set[str] = set()
     for k in order:
@@ -54,8 +56,10 @@ def save_key(api_key: str) -> Path:
         raise ValueError("Clé trop courte — vérifie sur console.mistral.ai")
     existing = _parse_env(ENV_PATH.read_text(encoding="utf-8")) if ENV_PATH.exists() else {}
     existing["MISTRAL_API_KEY"] = key
+    existing.setdefault("MINISTRAL_RATE_INTERVAL_SEC", "15")
+    existing.setdefault("MISTRAL_LARGE_RATE_INTERVAL_SEC", "30")
     existing.setdefault("DEVSTRAL_RATE_INTERVAL_SEC", "30")
-    existing.setdefault("CODESTRAL_RATE_INTERVAL_SEC", "20")
+    existing.setdefault("PIXTRAL_RATE_INTERVAL_SEC", "25")
     ENV_PATH.write_text(_render_env(existing), encoding="utf-8")
     os.chmod(ENV_PATH, 0o600)
     os.environ["MISTRAL_API_KEY"] = key

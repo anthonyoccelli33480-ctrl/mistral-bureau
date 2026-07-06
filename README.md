@@ -27,9 +27,9 @@
 
 **Input**
 ```
-Alternance Développeur IA Full-Stack
-React · Python · Bordeaux · 2026
-Exigences : TypeScript, API REST, autonomie
+Senior Backend Engineer (H/F)
+Python · FastAPI · PostgreSQL · Paris/remote
+Exigences : microservices, CI/CD, 5+ ans d'expérience
 ```
 
 **Output**
@@ -41,7 +41,7 @@ Exigences : TypeScript, API REST, autonomie
     "Citer expérience API REST / OpenAPI"
   ],
   "gaps": ["Docker non couvert dans le profil type"],
-  "keywords_to_add": ["TypeScript", "autonomie", "Bordeaux"],
+  "keywords_to_add": ["microservices", "CI/CD", "PostgreSQL"],
   "verdict": "postuler"
 }
 ```

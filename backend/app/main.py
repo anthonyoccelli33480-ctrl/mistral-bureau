@@ -21,7 +21,7 @@ load_dotenv(_root / ".env")
 load_dotenv(_root.parent / "jarvis-os" / ".env")
 load_dotenv(_root.parent / "devstral-lab" / ".env")
 
-LAB_PORT = int(os.getenv("LAB_PORT", "8789"))
+BUREAU_PORT = int(os.getenv("BUREAU_PORT", "8789"))
 
 app = FastAPI(title="Mistral Bureau", version="1.0.0")
 app.add_middleware(
@@ -96,7 +96,7 @@ async def health():
         "ok": has_key,
         "mistral_key": has_key,
         "env_file": str(ENV_PATH),
-        "port": LAB_PORT,
+        "port": BUREAU_PORT,
         "next_available_in_sec": round(next_available_in(), 1),
         "rate_intervals": intervals(),
     }
