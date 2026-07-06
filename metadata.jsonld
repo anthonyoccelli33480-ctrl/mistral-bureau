@@ -1,0 +1,37 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Mistral Bureau",
+  "identifier": "mistral-bureau",
+  "description": "27 French one-shot agents on Mistral La Plateforme. Mistral Large, Ministral, Devstral, Pixtral vision. Spectrum compares 3 models on one input. RGPD and career ready.",
+  "url": "https://github.com/anthonyoccelli33480-ctrl/mistral-bureau",
+  "codeRepository": "https://github.com/anthonyoccelli33480-ctrl/mistral-bureau",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "macOS, Linux, Windows",
+  "softwareVersion": "1.1.0",
+  "license": "https://opensource.org/licenses/MIT",
+  "author": {
+    "@type": "Person",
+    "name": "Anthony Occelli",
+    "url": "https://github.com/anthonyoccelli33480-ctrl"
+  },
+  "programmingLanguage": ["Python", "TypeScript"],
+  "inLanguage": "fr",
+  "featureList": [
+    "27 French agents",
+    "Mistral Spectrum — 3 models side by side",
+    "Pixtral vision OCR and UI review",
+    "RGPD compliance agent",
+    "Per-model zero-429 rate gates",
+    "Career JD STAR LinkedIn agents"
+  ],
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isPartOf": {
+    "@type": "CreativeWorkSeries",
+    "name": "Mistral Showcase Stack",
+    "hasPart": [
+      { "@type": "SoftwareApplication", "name": "Devstral Lab", "url": "https://github.com/anthonyoccelli33480-ctrl/devstral-lab" },
+      { "@type": "SoftwareApplication", "name": "Flash Agents", "url": "https://github.com/anthonyoccelli33480-ctrl/flash-agents" }
+    ]
+  }
+}

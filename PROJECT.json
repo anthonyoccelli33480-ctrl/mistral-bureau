@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "mistral-bureau",
+  "displayName": "Mistral Bureau",
+  "version": "1.1.0",
+  "description": "27 one-shot FR agents on Mistral La Plateforme — Large, Ministral, Devstral, Pixtral vision. Mistral Spectrum compares 3 models on one input.",
+  "url": "https://github.com/anthonyoccelli33480-ctrl/mistral-bureau",
+  "license": "MIT",
+  "author": {
+    "name": "Anthony Occelli",
+    "url": "https://github.com/anthonyoccelli33480-ctrl"
+  },
+  "ecosystem": {
+    "role": "mistral-fr-phase-2",
+    "related": [
+      {
+        "name": "devstral-lab",
+        "url": "https://github.com/anthonyoccelli33480-ctrl/devstral-lab",
+        "relation": "mistral-code-phase-1"
+      },
+      {
+        "name": "flash-agents",
+        "url": "https://github.com/anthonyoccelli33480-ctrl/flash-agents",
+        "relation": "cerebras-speed-showcase"
+      }
+    ]
+  },
+  "idea": "French-first multi-model Mistral showcase for Europe: career, RGPD, product, Pixtral vision. Spectrum mode educates which model tier to pick.",
+  "features": [
+    "27 FR agents",
+    "Mistral Spectrum (3 models, 1 input)",
+    "Pixtral vision upload",
+    "Per-model rate gates",
+    "RGPD and career agents",
+    "macOS Desktop launcher"
+  ],
+  "techStack": {
+    "backend": ["Python 3.12", "FastAPI", "httpx"],
+    "frontend": ["React 19", "Vite", "TypeScript"],
+    "inference": ["Mistral La Plateforme"],
+    "models": [
+      "mistral-large-2512",
+      "ministral-8b-latest",
+      "devstral-small-latest",
+      "pixtral-large-latest"
+    ]
+  },
+  "agents": {
+    "count": 27,
+    "categories": ["carriere", "produit", "contenu", "securite", "vision", "ia", "dev"]
+  },
+  "spectrum": {
+    "enabled": true,
+    "slots": [
+      { "id": "fast", "model": "ministral-8b-latest", "label": "Ministral 8B" },
+      { "id": "code", "model": "devstral-small-latest", "label": "Devstral Small 2" },
+      { "id": "deep", "model": "mistral-large-2512", "label": "Mistral Large" }
+    ],
+    "endpoints": [
+      { "method": "GET", "path": "/api/spectrum/meta" },
+      { "method": "POST", "path": "/api/spectrum/slot" },
+      { "method": "POST", "path": "/api/spectrum" }
+    ]
+  },
+  "api": {
+    "basePath": "/api",
+    "port": 8789,
+    "frontendPort": 5177,
+    "endpoints": [
+      { "method": "GET", "path": "/api/health", "description": "Health + rate intervals" },
+      { "method": "GET", "path": "/api/agents", "description": "List 27 agents" },
+      { "method": "POST", "path": "/api/run", "description": "Run agent (text or Pixtral images)" },
+      { "method": "POST", "path": "/api/setup/key", "description": "Save MISTRAL_API_KEY" }
+    ]
+  },
+  "secrets": {
+    "envFile": ".env",
+    "key": "MISTRAL_API_KEY",
+    "neverInBrowser": true
+  },
+  "keywords": [
+    "mistral-ai", "pixtral", "french-ai", "rgpd", "devstral",
+    "llm-agents", "spectrum", "structured-output", "zero-429"
+  ]
+}

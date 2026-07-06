@@ -170,6 +170,11 @@ Router · Eval · Review · Fix
 | Vision | **Pixtral** | — | Gemma |
 | Audience | **Europe / RH / RGPD** | Devs | Inference speed |
 
+## 🤖 Machine-readable
+
+- [`PROJECT.json`](PROJECT.json) — agents, Spectrum, API, ecosystem
+- [`metadata.jsonld`](metadata.jsonld) — Schema.org (FR, Pixtral, Spectrum)
+
 ## 🔑 Keywords
 
 `mistral-ai` · `pixtral` · `devstral` · `french-ai` · `rgpd` · `llm-agents` · `career` · `vision-llm` · `la-plateforme` · `structured-output`
