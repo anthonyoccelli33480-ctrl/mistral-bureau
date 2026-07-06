@@ -15,7 +15,10 @@
     "name": "Anthony Occelli",
     "url": "https://github.com/anthonyoccelli33480-ctrl"
   },
-  "programmingLanguage": ["Python", "TypeScript"],
+  "programmingLanguage": [
+    "Python",
+    "TypeScript"
+  ],
   "inLanguage": "fr",
   "featureList": [
     "27 French agents",
@@ -25,13 +28,25 @@
     "Per-model zero-429 rate gates",
     "Career JD STAR LinkedIn agents"
   ],
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
   "isPartOf": {
     "@type": "CreativeWorkSeries",
-    "name": "Mistral Showcase Stack",
+    "name": "Anthony Occelli — LLM Showcase Stack",
     "hasPart": [
-      { "@type": "SoftwareApplication", "name": "Devstral Lab", "url": "https://github.com/anthonyoccelli33480-ctrl/devstral-lab" },
-      { "@type": "SoftwareApplication", "name": "Flash Agents", "url": "https://github.com/anthonyoccelli33480-ctrl/flash-agents" }
+      {
+        "@type": "SoftwareApplication",
+        "name": "Devstral Lab",
+        "url": "https://github.com/anthonyoccelli33480-ctrl/devstral-lab"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Flash Agents",
+        "url": "https://github.com/anthonyoccelli33480-ctrl/flash-agents"
+      }
     ]
   }
 }
