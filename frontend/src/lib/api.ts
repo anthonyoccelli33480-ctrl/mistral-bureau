@@ -53,6 +53,44 @@ export async function fetchHealth(): Promise<{
   return fetch("/api/health").then((r) => r.json());
 }
 
+export interface SpectrumSlotMeta {
+  id: string;
+  model: string;
+  label: string;
+  tagline: string;
+}
+
+export interface SpectrumMeta {
+  slots: SpectrumSlotMeta[];
+  estimate_sec: number;
+}
+
+export interface SpectrumColumn {
+  slot: string;
+  model: string;
+  label: string;
+  tagline: string;
+  result?: Record<string, unknown> | null;
+  latency_ms?: number;
+  queue_wait_ms?: number;
+  error?: string | null;
+}
+
+export async function fetchSpectrumMeta(): Promise<SpectrumMeta> {
+  const r = await fetch("/api/spectrum/meta");
+  return r.json();
+}
+
+export async function runSpectrumSlot(input: string, slotId: string): Promise<SpectrumColumn> {
+  const r = await fetch("/api/spectrum/slot", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ input, slot_id: slotId }),
+  });
+  if (!r.ok) throw new Error((await r.text()) || `HTTP ${r.status}`);
+  return r.json();
+}
+
 export async function saveApiKey(apiKey: string): Promise<void> {
   const r = await fetch("/api/setup/key", {
     method: "POST",

@@ -14,6 +14,7 @@ from app.agents.guides import get_guide
 from app.mistral_client import chat, parse_json
 from app.rate_gate import acquire, intervals, next_available_in
 from app.secrets import ENV_PATH, load_key, save_key, validate_key
+from app.spectrum import SLOTS, SPECTRUM_SYSTEM, recommend, slot_by_id
 
 _root = Path(__file__).resolve().parents[2]
 load_dotenv(_root / ".env")
@@ -60,6 +61,34 @@ class RunResponse(BaseModel):
     next_steps: list[str] = []
 
 
+class SpectrumRequest(BaseModel):
+    input: str = Field(..., min_length=3, max_length=80_000)
+
+
+class SpectrumSlotRequest(BaseModel):
+    input: str = Field(..., min_length=3, max_length=80_000)
+    slot_id: str = Field(..., pattern="^(fast|code|deep)$")
+
+
+class SpectrumColumn(BaseModel):
+    slot: str
+    model: str
+    label: str
+    tagline: str
+    result: dict | None = None
+    latency_ms: float = 0
+    queue_wait_ms: float = 0
+    error: str | None = None
+
+
+class SpectrumResponse(BaseModel):
+    input: str
+    columns: list[SpectrumColumn]
+    recommendation: dict
+    total_ms: float
+    slots_order: list[str]
+
+
 @app.get("/api/health")
 async def health():
     has_key = bool(load_key())
@@ -90,6 +119,81 @@ async def setup_key(req: SetupKeyRequest):
 @app.get("/api/agents")
 async def agents():
     return {"agents": list_agents()}
+
+
+@app.get("/api/spectrum/meta")
+async def spectrum_meta():
+    return {
+        "slots": [
+            {"id": s.id, "model": s.model, "label": s.label, "tagline": s.tagline}
+            for s in SLOTS
+        ],
+        "estimate_sec": sum(intervals().get(s.model, 20) for s in SLOTS) + 15,
+    }
+
+
+async def _run_spectrum_slot(input_text: str, slot_id: str) -> SpectrumColumn:
+    slot = slot_by_id(slot_id)
+    wait = await acquire(slot.model)
+    try:
+        raw, latency, _ = await chat(
+            model=slot.model,
+            system=SPECTRUM_SYSTEM,
+            user=input_text.strip(),
+            max_tokens=1536,
+            temperature=0.25,
+            json_mode=True,
+        )
+        result = parse_json(raw)
+        return SpectrumColumn(
+            slot=slot.id,
+            model=slot.model,
+            label=slot.label,
+            tagline=slot.tagline,
+            result=result,
+            latency_ms=round(latency * 1000, 1),
+            queue_wait_ms=round(wait * 1000, 1),
+        )
+    except Exception as e:
+        return SpectrumColumn(
+            slot=slot.id,
+            model=slot.model,
+            label=slot.label,
+            tagline=slot.tagline,
+            error=str(e)[:400],
+            queue_wait_ms=round(wait * 1000, 1),
+        )
+
+
+@app.post("/api/spectrum/slot", response_model=SpectrumColumn)
+async def spectrum_slot(req: SpectrumSlotRequest):
+    """Un modèle Spectrum — pour progression UI (3 appels séquentiels côté client)."""
+    try:
+        slot_by_id(req.slot_id)
+    except KeyError:
+        raise HTTPException(404, f"Slot '{req.slot_id}' inconnu")
+    return await _run_spectrum_slot(req.input, req.slot_id)
+
+
+@app.post("/api/spectrum", response_model=SpectrumResponse)
+async def spectrum_full(req: SpectrumRequest):
+    """Les 3 modèles en séquence serveur — zero-429 garanti."""
+    import time
+
+    t0 = time.perf_counter()
+    columns: list[SpectrumColumn] = []
+    for slot in SLOTS:
+        columns.append(await _run_spectrum_slot(req.input, slot.id))
+
+    raw_cols = [c.model_dump() for c in columns]
+    rec = recommend(raw_cols, req.input)
+    return SpectrumResponse(
+        input=req.input,
+        columns=columns,
+        recommendation=rec,
+        total_ms=round((time.perf_counter() - t0) * 1000, 1),
+        slots_order=[s.id for s in SLOTS],
+    )
 
 
 @app.post("/api/run", response_model=RunResponse)

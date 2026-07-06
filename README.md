@@ -73,6 +73,16 @@ Exigences : TypeScript, API REST, autonomie
 
 Reproduce: `./scripts/benchmark.sh` (backend `:8789`)
 
+## 🌈 Mistral Spectrum
+
+**Un input → 3 colonnes** (Ministral · Devstral · Large) avec recommandation du meilleur tier.
+
+- File **séquentielle** anti-429 (~60–90s)
+- Progression live dans l'UI (1/3 → 2/3 → 3/3)
+- Idéal pour posts « quel modèle Mistral choisir ? »
+
+Onglet **Bureau Spectrum** dans la sidebar.
+
 ## 🏗 Architecture
 
 ```mermaid

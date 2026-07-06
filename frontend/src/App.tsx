@@ -3,7 +3,10 @@ import GuidePanel from "./components/GuidePanel";
 import ImageUpload from "./components/ImageUpload";
 import Onboarding from "./components/Onboarding";
 import ResultView from "./components/ResultView";
+import SpectrumView from "./components/SpectrumView";
 import { AgentMeta, RunResponse, fetchAgents, fetchHealth, runAgent } from "./lib/api";
+
+const SPECTRUM_ID = "__spectrum__";
 
 const CATEGORIES: Record<string, string> = {
   carriere: "Carrière",
@@ -39,7 +42,8 @@ export default function App() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [booting, setBooting] = useState(true);
 
-  const current = agents.find((a) => a.id === selected);
+  const isSpectrum = selected === SPECTRUM_ID;
+  const current = isSpectrum ? null : agents.find((a) => a.id === selected);
 
   const refreshHealth = useCallback(async () => {
     try {
@@ -144,6 +148,24 @@ export default function App() {
 
       <div className="layout">
         <aside className="sidebar">
+          <div className="cat-group spectrum-nav">
+            <h2 className="cat-label">Spectrum</h2>
+            <button
+              className={`agent-btn spectrum-btn-nav ${isSpectrum ? "active" : ""}`}
+              onClick={() => {
+                setSelected(SPECTRUM_ID);
+                setResult(null);
+                setError(null);
+                setImages([]);
+              }}
+            >
+              <span>🌈</span>
+              <span className="agent-info">
+                <span className="agent-name">Bureau Spectrum</span>
+                <span className="agent-model">3 modèles · 1 input</span>
+              </span>
+            </button>
+          </div>
           {Object.entries(grouped).map(([cat, list]) => (
             <div key={cat} className="cat-group">
               <h2 className="cat-label">{CATEGORIES[cat] ?? cat}</h2>
@@ -169,7 +191,8 @@ export default function App() {
           ))}
         </aside>
 
-        <main className="main">
+        <main className={`main ${isSpectrum ? "main-wide" : ""}`}>
+          {isSpectrum && <SpectrumView healthOk={health.ok} onHealth={refreshHealth} />}
           {current && (
             <>
               <div className="agent-header">
@@ -273,6 +296,13 @@ export default function App() {
         .agent-model { font-size: 0.68rem; color: var(--muted); font-family: var(--mono); }
 
         .main { flex: 1; padding: 1.5rem 2rem; max-width: 900px; overflow-y: auto; }
+        .main.main-wide { max-width: 1200px; }
+        .spectrum-nav { margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .spectrum-btn-nav.active {
+          background: linear-gradient(135deg, #a855f722, #ff700022);
+          border-color: #a855f766;
+          box-shadow: inset 3px 0 0 #a855f7;
+        }
         .agent-header { margin-bottom: 1rem; }
         .agent-header h2 { font-size: 1.2rem; }
         .agent-header p { color: var(--muted); font-size: 0.9rem; }
